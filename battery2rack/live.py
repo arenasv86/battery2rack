@@ -37,7 +37,8 @@ def candidates() -> list[str]:
         patterns = ["/Applications/Ableton Live 1*.app", os.path.expanduser("~/Applications/Ableton Live 1*.app")]
     elif sys.platform.startswith("win"):
         root = os.environ.get("ProgramData", r"C:\ProgramData")
-        patterns = [os.path.join(root, "Ableton", "Live 1*")]
+        # C:\ProgramData\Ableton\Live 12 Suite\Resources\Core Library (folder name varies)
+        patterns = [os.path.join(root, "Ableton", "Live*")]
     else:
         patterns = []
     found = [p for pat in patterns for p in glob.glob(pat)]

@@ -12,6 +12,9 @@ from .paths import default_output_dir
 
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
+    for stream in (sys.stdout, sys.stderr):  # e.g. Windows console redirected to a file (cp1252)
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(errors="replace")
     ap = argparse.ArgumentParser(
         prog="battery2rack",
         description="Convert Battery 4 kits (.nbkt) into Ableton Live Drum Racks (.adg).",

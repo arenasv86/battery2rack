@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass
 from typing import Callable, Iterable
 
@@ -32,13 +33,18 @@ def find_kits(paths: Iterable[str]) -> list[str]:
     return kits
 
 
+def _safe_name(name: str) -> str:
+    """File name valid on Windows too (no <>:"/\\|?* nor trailing dots/spaces)."""
+    return re.sub(r'[<>:"/\\|?*\x00-\x1f]', "_", name).rstrip(" .") or "Kit"
+
+
 def _output_path(out_dir: str, kit_path: str, used: set[str]) -> str:
     """<out>/<Kit>.adg; on a name clash, add the library name: <Kit> (<Library>).adg"""
-    name = os.path.splitext(os.path.basename(kit_path))[0]
+    name = _safe_name(os.path.splitext(os.path.basename(kit_path))[0])
     path = os.path.join(out_dir, name + ".adg")
     if path in used:
         parts = os.path.normpath(kit_path).split(os.sep)
-        lib = next((d for d in reversed(parts[:-1]) if d.endswith("Library")), parts[-2])
+        lib = _safe_name(next((d for d in reversed(parts[:-1]) if d.endswith("Library")), parts[-2]))
         path = os.path.join(out_dir, f"{name} ({lib}).adg")
         n = 2
         while path in used:

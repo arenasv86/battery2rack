@@ -121,6 +121,7 @@ class Kit:
         p = self.files[i]
         if os.path.isabs(p):
             return p
+        # Relative paths use '/', which normpath turns into '\' on Windows.
         return os.path.normpath(os.path.join(os.path.dirname(self.path), p))
 
 
@@ -189,6 +190,8 @@ def _parse_pool(d: bytes, nzones_hint: int) -> tuple[list[str], int]:
                 segs.append("..")
             else:
                 raise ValueError(f"unknown path segment {t}")
+        if absolute and re.fullmatch(r"[A-Za-z]:", segs[0]):  # Windows drive: C:\...
+            return segs[0] + "\\" + "\\".join(segs[1:]), o
         p = "/".join(segs)
         return ("/" + p if absolute else p), o
 

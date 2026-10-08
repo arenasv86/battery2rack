@@ -9,10 +9,10 @@ Each Battery cell becomes a Drum Rack pad with the same name, sample, note, tuni
 You need Python 3.9+ (already on macOS) and Ableton Live 12 (12.1+ for Drum Sampler).
 
 ```bash
-pipx install git+https://github.com/YOUR-USER/battery2rack
+pipx install git+https://github.com/arenasv86/battery2rack
 ```
 
-No `pipx`? `pip3 install --user git+https://github.com/YOUR-USER/battery2rack` works too. No other dependencies.
+No `pipx`? `pip3 install --user git+https://github.com/arenasv86/battery2rack` works too. No other dependencies.
 
 ## Use
 
@@ -32,6 +32,16 @@ battery2rack ~/Kits -o ~/Desktop/Racks --device simpler --volume -9
 | `--choke` | off | Map Battery's cell group to Choke Group (experimental) |
 
 Folders are searched recursively. Native Instruments expansions install their kits in `/Users/Shared/<Name> Library/Sounds/Battery Kits` on macOS.
+
+### Windows
+
+Install Python from [python.org](https://www.python.org/downloads/) (tick *Add python.exe to PATH*), then `pip install pipx` and the same `pipx install` line. Paths with spaces go in quotes:
+
+```bat
+battery2rack "C:\Users\Public\Documents\Native Instruments" --volume -12
+```
+
+Live is found in `C:\ProgramData\Ableton\Live …`; the racks go to `Documents\Ableton\User Library\Presets\Instruments\Drum Rack\Battery Kits`.
 
 ## What gets converted
 
@@ -55,7 +65,7 @@ Folders are searched recursively. Native Instruments expansions install their ki
 - Melodic cells spanning many keys (e.g. 51–127) become a single pad, so you can't play them chromatically.
 - Two cells on the same note (Drum Rack allows only one pad per note: the first is kept).
 
-Tested with 498 kits from Native Instruments expansions on macOS with Live 12.4. Windows support (Live detection, paths) is written but untested: reports welcome.
+Tested with 498 kits from Native Instruments expansions on macOS with Live 12.4. Windows support (Live detection, paths, file names) is in place but hasn't been tested on a real Windows machine yet: reports welcome.
 
 ## How it works
 
