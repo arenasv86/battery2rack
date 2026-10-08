@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "battery2rack"
+dynamic = ["version"]
+description = "Convert Native Instruments Battery 4 kits into Ableton Live Drum Racks"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+keywords = ["ableton", "battery", "drum rack", "native instruments", "converter", "samples"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Environment :: MacOS X",
+    "Environment :: Win32 (MS Windows)",
+    "Topic :: Multimedia :: Sound/Audio",
+]
+
+[project.scripts]
+battery2rack = "battery2rack.__main__:main"
+
+[tool.setuptools]
+packages = ["battery2rack"]
+
+[tool.setuptools.dynamic]
+version = { attr = "battery2rack.__version__" }
